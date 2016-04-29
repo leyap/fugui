@@ -31,9 +31,9 @@ void loop() {
 		time = millis ();
 		for (int i=0; i<5; i++) {
 			Serial.print (i);
-			Serial.print (" -> ");
+			Serial.print (":");
 			Serial.print (clouds[i].state);
-			Serial.println ();
+			Serial.print ("  ");
 		}
 		Serial.println ();
 	}
