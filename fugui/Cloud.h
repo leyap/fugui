@@ -7,7 +7,7 @@
 #include <Servo.h>
 #include <Arduino.h>
 
-class Cloud {
+class Cloud:public Servo {
 	Servo _servo;
 	int _pin;
 	int _limitPinL;
@@ -17,13 +17,12 @@ class Cloud {
 
 	public:
 	int state = 1;
-	Cloud (int pin, int limitPinL, int limitPinR, uint32_t delayTime=2000); 
+	void attach (int pin, int limitPinL, int limitPinR, uint32_t delayTime=2000); 
 	void update();
 
 	private:
 	void stop (); 
 	void cw (); 
 	void ccw (); 
-
 
 };
