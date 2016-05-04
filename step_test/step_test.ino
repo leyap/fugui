@@ -21,8 +21,10 @@ void setup() {
 
 void loop () {
 	digitalWrite(step_index+2, 1);
-	delay (2);
+	delay (5);
 	digitalWrite(step_index+2, 0);
+  delay (1);
+
 	step_index --;
 	if (step_index == 4) {
 		step_index = 0;
