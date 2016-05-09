@@ -36,7 +36,7 @@ lispStepper::lispStepper (int p1, int p2, int p3, int p4) {
 }
 
 //
-void lispStepper::set (int n) {
+void lispStepper::set (uint32_t n) {
 	digitalWrite(_p1, steps[n][0]);
 	digitalWrite(_p2, steps[n][1]);
 	digitalWrite(_p3, steps[n][2]);
@@ -44,14 +44,14 @@ void lispStepper::set (int n) {
 }
 
 //
-void lispStepper::forward(int step) {
+void lispStepper::forward(uint32_t step) {
 	dir = 1;
 	totalNum = step;
 	finish = false;
 }
 
 //
-void lispStepper::backward(int step) {
+void lispStepper::backward(uint32_t step) {
 	dir = 0;
 	totalNum = step;
 	finish = false;
@@ -59,10 +59,10 @@ void lispStepper::backward(int step) {
 
 //
 void lispStepper::setdir(int dir) {
-	dir = dir;
+	this->dir = dir;
 }
 
-void lispStepper::setStep(int step) {
+void lispStepper::setStep(uint32_t step) {
 	totalNum = step;
 	finish = false;
 	if (totalNum > currNum) {
@@ -74,11 +74,13 @@ void lispStepper::setStep(int step) {
 
 //
 void lispStepper::update () {
+	//static uint32_t maxDist = 42000;
 	switch (state) {
 		case 1:	//check and cw
 			if (millis() - lastTime > delayTime) {
 				state ++;
-				setStep(random (0, 1000));
+				setStep(random (0, maxDist/2));
+				//setStep(random (0, 1));
 			}
 			break;
 		case 2:	//cw
@@ -93,7 +95,8 @@ void lispStepper::update () {
 		case 3:	//check and ccw
 			if (millis() - lastTime > delayTime) {
 				state ++;
-				setStep(random (1000, 2000));
+				setStep(random (maxDist/2, maxDist));
+				//setStep(random (maxDist-1, maxDist));
 			}
 			break;
 		case 4:	//ccw
@@ -129,5 +132,10 @@ void lispStepper::stepUpdate () {
 			}
 		}
 	}
+}
+
+//
+void lispStepper::setMaxDist (uint32_t maxDist) {
+	this->maxDist = maxDist;
 }
 

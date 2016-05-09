@@ -7,6 +7,7 @@
 #include "lispStepper.h"
 
 #define NUM 5
+#define MAX_DIST 42000
 
 lispStepper steppers[NUM] = {
 	lispStepper( 0, 1, 2, 3),
@@ -19,7 +20,9 @@ lispStepper steppers[NUM] = {
 //
 void setup() {
 	for (int i=0; i<NUM; i++) {
-		steppers[i].forward(random (0, 1000));
+		//steppers[i].forward(random (0, 1000));
+		steppers[i].forward(1000);
+		steppers[i].setMaxDist (MAX_DIST);
 	}
 }
 
