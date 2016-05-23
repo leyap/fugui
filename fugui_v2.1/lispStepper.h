@@ -53,6 +53,9 @@ class lispStepper {
 		void reset();
 
 		//
+		void toZero();
+
+		//
 		boolean go(int dir);
 
 	private:

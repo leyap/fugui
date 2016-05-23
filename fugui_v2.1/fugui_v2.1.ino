@@ -7,7 +7,8 @@
 #include "lispStepper.h"
 
 #define NUM 10
-#define MAX_DIST 2000
+#define MAX_DIST (56000)
+//#define MAX_DIST 2000
 
 #define CMD_SIZE 6
 char cmdbuf[CMD_SIZE];
@@ -32,9 +33,10 @@ void setup() {
 	Serial.begin (115200);
 	for (int i=0; i<NUM; i++) {
 		//steppers[i].forward(random (0, 1000));
-		steppers[i].forward(1000);
+		steppers[i].forward(random (0, MAX_DIST/10));
 		steppers[i].setMaxDist (MAX_DIST);
 	}
+	delay (10000);
 }
 
 //
@@ -123,6 +125,18 @@ void setOneGoDir (int num, int dir) {
 }
 
 //
+void allToZero() {
+	for (int i=0; i<NUM; i++) {
+		steppers[i].toZero();
+	}
+}
+
+//
+void oneToZero(int num) {
+	steppers[num].toZero();
+}
+
+//
 void parseCmd (char *cmdstring) {
 	uint8_t cmd = 0;
 	int8_t num = 0;
@@ -133,12 +147,12 @@ void parseCmd (char *cmdstring) {
 	num = cmdstring[2]*16 + cmdstring[3];
 	value = cmdstring[4]*16 + cmdstring[5];
 
-	Serial.println ();
-	Serial.print (cmd);
-	Serial.print (" ");
-	Serial.print (num);
-	Serial.print (" ");
-	Serial.println (value);
+	//Serial.println ();
+	//Serial.print (cmd);
+	//Serial.print (" ");
+	//Serial.print (num);
+	//Serial.print (" ");
+	//Serial.println (value);
 
 	switch (cmd) {
 		case 0x10:	//set all run state
@@ -158,6 +172,12 @@ void parseCmd (char *cmdstring) {
 			break;
 		case 0x15:	//set one go with dir
 			setOneGoDir(num, value);
+			break;
+		case 0x16:	//all to zero
+			allToZero();
+			break;
+		case 0x17:	//one to zero
+			oneToZero(num);
 			break;
 		default :
 			Serial.println ("unknow command");

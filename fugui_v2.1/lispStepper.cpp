@@ -83,8 +83,8 @@ void lispStepper::update () {
 			case 1:	//check and cw
 				if (millis() - lastTime > delayTime) {
 					_loopState ++;
-					//setStep(random (0, maxDist/2));
-					setStep(0);
+					setStep(random (0, maxDist));
+					//setStep(0);
 				}
 				break;
 			case 2:	//cw
@@ -99,8 +99,8 @@ void lispStepper::update () {
 			case 3:	//check and ccw
 				if (millis() - lastTime > delayTime) {
 					_loopState ++;
-					//setStep(random (maxDist/2, maxDist));
-					setStep(maxDist);
+					setStep(random (0, maxDist));
+					//setStep(maxDist);
 				}
 				break;
 			case 4:	//ccw
@@ -161,6 +161,12 @@ boolean lispStepper::getRunState() {
 //set currNum to 0
 void lispStepper::reset() {
 	this->currNum = 0;
+	setStep(currNum);
+}
+
+//to zero
+void lispStepper::toZero() {
+	setStep(0);
 }
 
 //go a maxDist with dir
